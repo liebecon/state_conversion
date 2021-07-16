@@ -1,0 +1,100 @@
+import numpy as np
+import pandas as pd
+
+sin = np.sin
+cos = np.cos
+tan = np.tan
+arctan = np.arctan
+sqrt = np.sqrt
+array = np.array
+transpose = np.transpose
+
+def conversion_M(a,e,i,w,W,M,mu):
+
+    En=np.pi
+    En1=0
+    for i in range(10):
+        En1=En - (En -e*sin(En)-M)/(1- e*cos(En))
+        En = En1
+
+    E = En    
+
+    nu = 2*arctan(sqrt((1+e)/(1-e))*(tan(E/2)))
+
+    p11 = (cos(W)*cos(w)-sin(W)*sin(w)*cos(i))
+    p12 = (-cos(W)*sin(w)-sin(W)*cos(w)*cos(i))
+    p13 = (sin(W)*sin(i))
+
+    p21 = (sin(W)*cos(w)+cos(W)*sin(w)*cos(i))
+    p22 = (-sin(W)*sin(w)+cos(W)*cos(w)*cos(i))
+    p23 = (-cos(W)*sin(i))
+
+    p31 = (sin(w)*sin(i))
+    p32 = (cos(w)*sin(i))
+    p33 = (cos(i))
+
+    all1 = (cos(nu)*p11+sin(nu)*p12)
+    all2 = (cos(nu)*p21+sin(nu)*p22)
+    all3 = (cos(nu)*p31+sin(nu)*p32)
+    all4 = (e+cos(nu))
+    all5 = (((1-e**2))/(1+e*cos(nu)))
+    all6 = (sqrt(mu/(a*(1-e**2))))
+
+    ab = ((1/(2*a))*all6)
+
+    da = [[all5*all1],
+           [all5*all2],
+           [all5*all3],
+           [ab*(sin(nu)*p11-all4*p12)],
+           [ab*(sin(nu)*p21-all4*p22)],
+           [ab*(sin(nu)*p31-all4*p32)]]
+
+    ea = ((-2*a*e+a*cos(nu)+a*cos(nu)*e**2)/((1+e*cos(nu))**2))
+    eb = ((1/(1-e**2))*all6)
+    ec = (e*sin(nu))
+
+    de = [[ea*all1],
+          [ea*all2],
+          [ea*all3],
+          [eb*(ec*p11+all4*p12)],
+          [eb*(ec*p21+all4*p22)],
+          [eb*(ec*p31+all4*p32)]]
+
+    ib = (cos(nu)*sin(w)+sin(nu)*cos(w))
+    ie = (sin(nu)*p31)
+    ig = (all4*p32)
+
+    di = [[(a*all5)*p13*ib],
+           [(a*all5)*p23*ib],
+           [(a*all5)*(cos(i))*ib],
+           [all6*(sin(W))*(ie+ig)],
+           [all6*(cos(W))*(ie-ig)],
+           [-all6*(sin(nu)*sin(w)*cos(i)+all4*cos(w)*cos(i))]]
+
+    dO = [[(a*all5)*(-all2)],
+         [(a*all5)*all2],
+         [0],
+         [all6*(sin(nu)*p21-all4*p22)],
+         [all6*(-sin(nu)*p11-all4*p12)],
+         [0]]
+
+    do = [[(a*all5)*(cos(nu)*p12-sin(nu)*p11)],
+         [(a*all5)*(cos(nu)*p22-sin(nu)*p21)],
+         [(a*all5)*(sin(i))*(cos(nu)*cos(w)-sin(nu)*sin(w))],
+         [all6*(sin(nu)*p12+all4*p21)],
+         [all6*(-sin(nu)*p22-all4*p21)],
+         [all6*(-sin(nu)*p32-all4*p31)]]
+
+    dM = [[(a*all5)*(-sin(nu)*p11+all4*p12)],
+         [(a*all5)*(-sin(nu)*p21+all4*p22)],
+         [(a*all5)*(-sin(nu)*p31+all4*p32)],
+         [all6*(-all1)],
+         [all6*(-all2)],
+         [all6*(-all3)]]
+
+    combine = array([da,de,di,dO,do,dM])
+    orb_coor = array([e,a,i,W,w,M])
+
+    conv = (combine)*(orb_coor)*(transpose(combine))
+
+    return conv
