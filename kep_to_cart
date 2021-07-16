@@ -9,7 +9,7 @@ sqrt = np.sqrt
 array = np.array
 transpose = np.transpose
 
-def conversion_M(a,e,i,w,W,M,mu):
+def conversion_M(a,e,i,w,O,M,mu):
 
     En=np.pi
     En1=0
@@ -21,13 +21,13 @@ def conversion_M(a,e,i,w,W,M,mu):
 
     nu = 2*arctan(sqrt((1+e)/(1-e))*(tan(E/2)))
 
-    p11 = (cos(W)*cos(w)-sin(W)*sin(w)*cos(i))
-    p12 = (-cos(W)*sin(w)-sin(W)*cos(w)*cos(i))
-    p13 = (sin(W)*sin(i))
+    p11 = (cos(O)*cos(w)-sin(O)*sin(w)*cos(i))
+    p12 = (-cos(O)*sin(w)-sin(O)*cos(w)*cos(i))
+    p13 = (sin(O)*sin(i))
 
-    p21 = (sin(W)*cos(w)+cos(W)*sin(w)*cos(i))
-    p22 = (-sin(W)*sin(w)+cos(W)*cos(w)*cos(i))
-    p23 = (-cos(W)*sin(i))
+    p21 = (sin(O)*cos(w)+cos(O)*sin(w)*cos(i))
+    p22 = (-sin(O)*sin(w)+cos(O)*cos(w)*cos(i))
+    p23 = (-cos(O)*sin(i))
 
     p31 = (sin(w)*sin(i))
     p32 = (cos(w)*sin(i))
@@ -67,8 +67,8 @@ def conversion_M(a,e,i,w,W,M,mu):
     di = [[(a*all5)*p13*ib],
            [(a*all5)*p23*ib],
            [(a*all5)*(cos(i))*ib],
-           [all6*(sin(W))*(ie+ig)],
-           [all6*(cos(W))*(ie-ig)],
+           [all6*(sin(O))*(ie+ig)],
+           [all6*(cos(O))*(ie-ig)],
            [-all6*(sin(nu)*sin(w)*cos(i)+all4*cos(w)*cos(i))]]
 
     dO = [[(a*all5)*(-all2)],
@@ -78,7 +78,7 @@ def conversion_M(a,e,i,w,W,M,mu):
          [all6*(-sin(nu)*p11-all4*p12)],
          [0]]
 
-    do = [[(a*all5)*(cos(nu)*p12-sin(nu)*p11)],
+    dw = [[(a*all5)*(cos(nu)*p12-sin(nu)*p11)],
          [(a*all5)*(cos(nu)*p22-sin(nu)*p21)],
          [(a*all5)*(sin(i))*(cos(nu)*cos(w)-sin(nu)*sin(w))],
          [all6*(sin(nu)*p12+all4*p21)],
@@ -92,8 +92,8 @@ def conversion_M(a,e,i,w,W,M,mu):
          [all6*(-all2)],
          [all6*(-all3)]]
 
-    combine = array([da,de,di,dO,do,dM])
-    orb_coor = array([e,a,i,W,w,M])
+    combine = array([da,de,di,dO,dw,dM])
+    orb_coor = array([e,a,i,O,w,M])
 
     conv = (combine)*(orb_coor)*(transpose(combine))
 
