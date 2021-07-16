@@ -67,7 +67,7 @@ def conversion_M(a,e,i,w,O,M,mu):
     di = [(a*all5)*p13*ib,
            (a*all5)*p23*ib,
            (a*all5)*(cos(i))*ib,
-           (all6*(sin(O))*(ie+ig),
+           all6*(sin(O))*(ie+ig),
            all6*(cos(O))*(ie-ig),
            -all6*(sin(nu)*sin(w)*cos(i)+all4*cos(w)*cos(i))]
 
@@ -93,8 +93,8 @@ def conversion_M(a,e,i,w,O,M,mu):
          all6*(-all3)]
 
     combine = array([da,de,di,dO,dw,dM])
-    orb_coor = array([e,a,i,O,w,M])
+    orb_coor = array([a,e,i,O,w,M])
 
-    conv = (combine)*(orb_coor)*(transpose(combine))
+    conv = (combine)*(orb_coor)
 
     return conv
